@@ -36,7 +36,7 @@ int findNearestNeighbor(int current) {
     return nearest;
 }
 
-void dijkstra(int start, int end, int *distance, int *path) {
+void dijkstra(int start, int end, int lastVisited, int *distance, int *path) {
     int dist[MAX], prev[MAX], selected[MAX] = {0};
     int inf = INT_MAX, min, m, startNode = start, i, j;
 
@@ -54,6 +54,11 @@ void dijkstra(int start, int end, int *distance, int *path) {
                 min = dist[j];
                 m = j;
             }
+        }
+
+        if (m == lastVisited) {
+            selected[m] = 1;
+            continue;
         }
 
         selected[m] = 1;
@@ -103,7 +108,7 @@ int* nearestNeighbor(int start, int* pathLength) {
 
             for (int i = 0; i < n; i++) {
                 if (!visited[i]) {
-                    dijkstra(current, i, &distance, shortestPath);
+                    dijkstra(current, i, path[pathIndex - 2], &distance, shortestPath);
                     if (distance < minDist) {
                         minDist = distance;
                         nearestNode = i;
@@ -115,7 +120,7 @@ int* nearestNeighbor(int start, int* pathLength) {
                 break;
             }
 
-            dijkstra(current, nearestNode, &distance, shortestPath);
+            dijkstra(current, nearestNode, path[pathIndex - 2], &distance, shortestPath);
             for (int i = 1; shortestPath[i] != -1; i++) {
                 totalDistance += graph[current][shortestPath[i]];
                 visited[shortestPath[i]] = 1;
@@ -134,19 +139,8 @@ int* nearestNeighbor(int start, int* pathLength) {
         }
     }
 
-    // Ensure all nodes are visited
-    for (int i = 0; i < n; i++) {
-        if (!visited[i]) {
-            dijkstra(current, i, &totalDistance, path + pathIndex);
-            while (path[pathIndex] != -1) {
-                visited[path[pathIndex]] = 1;
-                pathIndex++;
-            }
-        }
-    }
-
     int distance, shortestPath[MAX];
-    dijkstra(current, start, &distance, shortestPath);
+    dijkstra(current, start, path[pathIndex - 2], &distance, shortestPath);
 
     if (distance != INT_MAX) {
         for (int i = 1; shortestPath[i] != -1; i++) {
