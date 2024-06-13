@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 #define WINDOW_WIDTH 1500
-#define WINDOW_HEIGHT 900
+#define WINDOW_HEIGHT 1000
 
 #define NUM_SHAPES 30
 
