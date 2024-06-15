@@ -171,13 +171,13 @@ void update_circle_colors(CircleMap *circle_map, int path[], int path_length) {
 
         Circle* current_circle = get_circle(circle_map, current_id);
         if (!current_circle) {
-            fprintf(stderr, "Error: Circle with ID %d not found.\n", current_id);
+            fprintf(stderr, "Circle with ID %d not found.\n", current_id);
             continue;
         }
 
         Circle* prev_circle = (prev_id == -1) ? NULL : get_circle(circle_map, prev_id);
         if (prev_id != -1 && !prev_circle) {
-            fprintf(stderr, "Error: Previous Circle with ID %d not found.\n", prev_id);
+            fprintf(stderr, "Previous Circle with ID %d not found.\n", prev_id);
             continue;
         }
 
@@ -199,7 +199,7 @@ void update_circle_colors(CircleMap *circle_map, int path[], int path_length) {
 
     Circle* last_circle = get_circle(circle_map, path[path_length - 1]);
     if (!last_circle) {
-        fprintf(stderr, "Error: Last Circle with ID %d not found.\n", path[path_length - 1]);
+        fprintf(stderr, "Last Circle with ID %d not found.\n", path[path_length - 1]);
         return;
     }
 
@@ -237,7 +237,7 @@ int main(int argc, char* args[]) {
             }
             numbers[count] = strtol(ptr, &ptr, 10);
             count++;
-            if (count >= 100) {
+            if (count >= 500) {
                 fprintf(stderr, "Error: Too many numbers in the file\n");
                 fclose(file);
                 return EXIT_FAILURE;
