@@ -120,41 +120,9 @@ void setup(CircleMap *circle_map) {
     //line 4
     add_circle(circle_map, 19, 110, 380, 15, 255, 0, 0, 255);
     add_circle(circle_map, 7, 250, 380, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 38, 300, 480, 15, 255, 0, 0, 255);
     add_circle(circle_map, 20, 450, 380, 15, 255, 0, 0, 255);
     add_circle(circle_map, 21, 800, 380, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 35, 1000, 480, 15, 255, 0, 0, 255);
     add_circle(circle_map, 18, 1150, 380, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 18, 1250, 480, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 20, 1400, 480, 15, 255, 0, 0, 255);
-    // //line 4.5
-    // add_circle(circle_map, 46, 50, 550, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 44, 180, 550, 15, 255, 0, 0, 255);
-    // //line 5
-    // add_circle(circle_map, 40, 450, 650, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 34, 900, 650, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 21, 1190, 650, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 22, 1320, 650, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 23, 1460, 650, 15, 255, 0, 0, 255);
-    // //line 5.5
-    // add_circle(circle_map, 47, 50, 750, 15, 255, 0, 0, 255);
-    // //line 6
-    // add_circle(circle_map, 43, 110, 820, 15, 255, 0, 0, 255);
-    // //add_circle(circle_map, 39, 410, 820, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 32, 680, 820, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 33, 1000, 820, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 24, 1250, 820, 15, 255, 0, 0, 255);
-    // //add_circle(circle_map, 26, 1320, 820, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 25, 1390, 820, 15, 255, 0, 0, 255);
-    // //line 6.5
-    // add_circle(circle_map, 42, 50, 890, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 29, 1190, 890, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 27, 1460, 890, 15, 255, 0, 0, 255);
-    // //line 7
-    // add_circle(circle_map, 41, 110, 950, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 31, 610, 950, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 30, 1050, 950, 15, 255, 0, 0, 255);
-    // add_circle(circle_map, 28, 1320, 950, 15, 255, 0, 0, 255);
 }
 
 void render(CircleMap *circle_map) {
@@ -174,15 +142,7 @@ void render(CircleMap *circle_map) {
         {340, 230, 630, 130},
         {340, 60, 630, 130},
         {1010, 60, 430, 300},
-        //Second block
-        // {60, 500, 100, 300},
-        // {160, 670, 490, 130},
-        // {200, 500, 960, 130},
-        // {690, 670, 470, 130},
-        // {1200, 500, 100, 300},
-        // {1340, 500, 100, 300},
-        // {60, 840, 1100, 100},
-        // {1200, 840, 240, 100},
+
     };
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);

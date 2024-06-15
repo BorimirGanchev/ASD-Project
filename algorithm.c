@@ -46,7 +46,6 @@ int findNearestNeighbor(int current, int lastDir) {
 }
 
 int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
-    printf("Dijkstra called with start: %d, end: %d, lastDir: %d\n", start, end, lastDir); // Print call info
 
     int dist[MAX], prev[MAX], selected[MAX] = {0};
     int inf = INT_MAX, min, m, startNode = start, i, j;
@@ -82,7 +81,6 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
                     if (newDist < dist[j]) {
                         dist[j] = newDist;
                         prev[j] = m;
-                        printf("Updated distance for node %d to %d with distance %d\n", j, newDist, lastDir);
                         if (!firstDirectionSet) {
                             firstDirection = direction[start][j];
                             firstDirectionSet = 1;
@@ -108,17 +106,7 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
                 case SOUTH: dirStr = "SOUTH"; break;
                 default: dirStr = "UNKNOWN"; break;
             }
-            printf("\n\n\nFirst direction taken: %s\n", dirStr);
         }
-        printf("Dijkstra execution failed: No path found from %d to %d\n", start, end);
-        printf("Partial path: ");
-        i = start;
-        while (i != -1) {
-            printf("%d ", i);
-            if (i == prev[i]) break; 
-            i = prev[i];
-        }
-        printf("\n");
         return 0; 
     }
 
@@ -137,13 +125,6 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
     }
     path[j] = -1;
 
-    printf("Dijkstra execution successful: Path found from %d to %d\n", start, end);
-    printf("Path: ");
-    for (i = 0; path[i] != -1; i++) {
-        printf("%d ", path[i]);
-    }
-    printf("\nTotal distance: %d\n", dist[end]);
-
     if (firstDirectionSet) {
         const char* dirStr;
         switch (firstDirection) {
@@ -153,27 +134,9 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
             case SOUTH: dirStr = "SOUTH"; break;
             default: dirStr = "UNKNOWN"; break;
         }
-        printf("\n\n\nFirst direction taken: %s\n", dirStr);
     }
 
     return 1; 
-}
-
-
-void printVisitedUnvisited() {
-    printf("Visited nodes: ");
-    for (int i = 0; i < n; i++) {
-        if (visited[i]) {
-            printf("%d ", i);
-        }
-    }
-    printf("\nUnvisited nodes: ");
-    for (int i = 0; i < n; i++) {
-        if (!visited[i]) {
-            printf("%d ", i);
-        }
-    }
-    printf("\n");
 }
 
 void printDirection(int from, int to, int dir) {
@@ -185,7 +148,6 @@ void printDirection(int from, int to, int dir) {
         case SOUTH: dirStr = "SOUTH"; break;
         default: dirStr = "UNKNOWN"; break;
     }
-    printf("Moving from %d to %d in direction %s\n", from, to, dirStr);
 }
 
 int* nearestNeighbor(int start, int* pathLength) {
@@ -199,7 +161,6 @@ int* nearestNeighbor(int start, int* pathLength) {
     visited[current] = 1;
 
     while (1) {
-        printVisitedUnvisited();
 
         int next = findNearestNeighbor(current, lastDir);
 
@@ -304,63 +265,7 @@ int main() {
     addEdge(16, 17, 3, SOUTH); addEdge(17, 16, 3, WEST);
     addEdge(18, 17, 3, NORTH); addEdge(17, 18, 3, WEST);
     addEdge(19, 0, 1, SOUTH); addEdge(0, 19, 1, NORTH);
-    // addEdge(17, 23, 3, SOUTH); addEdge(23, 17, 3, NORTH);
-    // addEdge(1, 46, 2, SOUTH); addEdge(46, 1, 2, NORTH);
-    // addEdge(0, 46, 1, SOUTH); addEdge(46, 0, 1, NORTH);
-    // addEdge(46, 38, 2, NORTH); addEdge(38, 46, 2, WEST);
-    // addEdge(46, 44, 3, NORTH); addEdge(44, 46, 3, NORTH);
-    // addEdge(44, 38, 2, NORTH); addEdge(38, 44, 2, WEST);
-    // addEdge(44, 40, 2, SOUTH); addEdge(40, 44, 2, WEST);
-    // addEdge(46, 47, 1, SOUTH); addEdge(47, 46, 1, NORTH);
-    // addEdge(47, 42, 1, SOUTH); addEdge(42, 47, 1, NORTH);
-    // addEdge(47, 43, 2, SOUTH); addEdge(43, 47, 2, WEST);
-    // addEdge(42, 43, 2, NORTH); addEdge(43, 42, 2, WEST);
-    // addEdge(42, 41, 2, SOUTH); addEdge(41, 42, 2, WEST);
-    // addEdge(43, 32, 2, EAST); addEdge(32, 43, 2, WEST);////////
-    // addEdge(41, 31, 2, EAST); addEdge(31, 41, 2, WEST);
-    // addEdge(31, 30, 2, EAST); addEdge(30, 31, 2, WEST);///////
-    // addEdge(32, 33, 1, EAST); addEdge(33, 32, 1, WEST);
-    // addEdge(40, 32, 2, EAST); addEdge(32, 40, 2, NORTH);
-    // addEdge(32, 34, 2, NORTH); addEdge(34, 32, 2, WEST);
-    // addEdge(40, 34, 2, EAST); addEdge(34, 40, 2, WEST);
-    // addEdge(38, 35, 4, EAST); addEdge(35, 38, 4, WEST);
-    // addEdge(35, 19, 1, EAST); addEdge(19, 35, 1, WEST);
-    // addEdge(35, 21, 2, EAST); addEdge(21, 35, 2, NORTH);
-    // addEdge(19, 21, 2, WEST); addEdge(21, 19, 2, NORTH);
-    // addEdge(34, 21, 1, EAST); addEdge(21, 34, 1, WEST);
-    // addEdge(21, 33, 2, SOUTH); addEdge(33, 21, 2, EAST);
-    // addEdge(21, 24, 2, SOUTH); addEdge(24, 21, 2, WEST);//////
-    // addEdge(33, 24, 1, EAST); addEdge(24, 33, 1, WEST);
-    // addEdge(21, 29, 2, SOUTH); addEdge(29, 21, 2, NORTH);
-    // addEdge(33, 29, 2, EAST); addEdge(29, 33, 2, NORTH);
-    // addEdge(24, 29, 2, WEST); addEdge(29, 24, 2, NORTH);
-    // addEdge(30, 29, 2, EAST); addEdge(29, 30, 2, SOUTH);
-    // addEdge(30, 28, 1, EAST); addEdge(28, 30, 1, WEST);
-    // addEdge(28, 29, 2, WEST); addEdge(29, 28, 2, SOUTH);
-    // addEdge(19, 20, 1, EAST); addEdge(20, 19, 1, WEST);
-    // addEdge(19, 22, 2, EAST); addEdge(22, 19, 2, NORTH);
-    // addEdge(20, 22, 2, WEST); addEdge(22, 20, 2, NORTH);
-    // addEdge(24, 22, 2, EAST); addEdge(22, 24, 2, SOUTH);
-    // addEdge(22, 25, 2, SOUTH); addEdge(25, 22, 2, WEST);
-    // addEdge(24, 25, 1, EAST); addEdge(25, 24, 1, WEST);
-    // addEdge(28, 27, 2, EAST); addEdge(27, 28, 2, SOUTH);
-    // addEdge(25, 27, 2, EAST); addEdge(27, 25, 2, NORTH);
-    // addEdge(27, 23, 1, NORTH); addEdge(23, 27, 1, SOUTH);
-    // addEdge(20, 23, 2, EAST); addEdge(23, 20, 2, NORTH);
-    // int distance;
-    // int path[MAX];
-    // if (dijkstra(21, 9, 1, &distance, path)) {
-    //     printf("Shortest path from 21 to 9 found:\n");
-    //     for (int i = 0; path[i] != -1; i++) {
-    //         printf("%d ", path[i]);
-    //     }
-    //     printf("\nTotal distance: %d\n", distance);
-    // } else {
-    //     printf("No path found from 21 to 9\n");
-    // }
-
-
-
+    
     int startNode = 0;
     int pathLength;
     int* path = nearestNeighbor(startNode, &pathLength);
@@ -368,7 +273,6 @@ int main() {
     FILE *fptr;
     fptr = fopen("filename.txt", "w");
 
-    printf("Nearest Neighbor Path: ");
     for (int i = 0; i < pathLength + 1; i++) {
         fprintf(fptr, "%d, ", path[i]);
     }
