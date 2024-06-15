@@ -1,12 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
-
-#define MAX 100
-#define EAST 1
-#define WEST 2
-#define NORTH 3
-#define SOUTH 4
+#include "./constants.h"
 
 int graph[MAX][MAX];
 int direction[MAX][MAX];
@@ -97,7 +92,6 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
             }
         }
 
-        // Update lastDir after processing all neighbors of m
         if (prev[m] != -1) {
             lastDir = direction[prev[m]][m];
         }
@@ -121,11 +115,11 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
         i = start;
         while (i != -1) {
             printf("%d ", i);
-            if (i == prev[i]) break; // Prevent infinite loop in case of disconnected graph
+            if (i == prev[i]) break; 
             i = prev[i];
         }
         printf("\n");
-        return 0; // Failure
+        return 0; 
     }
 
     i = end;
@@ -134,8 +128,6 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
         path[j++] = i;
         i = prev[i];
     }
-
-    // Exclude the last visited node
     j--;
 
     for (i = 0; i < j / 2; i++) {
@@ -164,7 +156,7 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
         printf("\n\n\nFirst direction taken: %s\n", dirStr);
     }
 
-    return 1; // Success
+    return 1; 
 }
 
 
@@ -207,7 +199,7 @@ int* nearestNeighbor(int start, int* pathLength) {
     visited[current] = 1;
 
     while (1) {
-        printVisitedUnvisited(); // Print the state of visited and unvisited nodes
+        printVisitedUnvisited();
 
         int next = findNearestNeighbor(current, lastDir);
 
@@ -230,11 +222,11 @@ int* nearestNeighbor(int start, int* pathLength) {
             }
 
             if (dijkstra(current, nearestNode, lastDir, &distance, shortestPath)) {
-                for (int i = 1; shortestPath[i] != -1; i++) {
+                for (int i = 0; shortestPath[i] != -1; i++) {
                     totalDistance += graph[current][shortestPath[i]];
                     lastDir = direction[current][shortestPath[i]];
                     visited[shortestPath[i]] = 1;
-                    printDirection(current, shortestPath[i], lastDir); // Print the direction
+                    printDirection(current, shortestPath[i], lastDir); 
                     current = shortestPath[i];
                     path[pathIndex++] = current;
                 }
@@ -243,7 +235,7 @@ int* nearestNeighbor(int start, int* pathLength) {
             totalDistance += graph[current][next];
             lastDir = direction[current][next];
             visited[next] = 1;
-            printDirection(current, next, lastDir); // Print the direction
+            printDirection(current, next, lastDir);
             current = next;
             path[pathIndex++] = current;
         }
@@ -258,7 +250,6 @@ int* nearestNeighbor(int start, int* pathLength) {
         if (allVisited) break;
     }
 
-    // Ensure the return to the start node
     int distance, shortestPath[MAX];
     if (dijkstra(current, start, lastDir, &distance, shortestPath)) {
         for (int i = 1; shortestPath[i] != -1; i++) {
@@ -267,7 +258,6 @@ int* nearestNeighbor(int start, int* pathLength) {
             path[pathIndex++] = current;
         }
     } else {
-        // Handle case where there is no path back to start
         printf("No path back to start node found.\n");
     }
 
@@ -308,7 +298,7 @@ int main() {
     addEdge(13, 14, 2, NORTH); addEdge(14, 13, 2, SOUTH);
     addEdge(13, 15, 2, SOUTH); addEdge(15, 13, 2, NORTH);
     addEdge(21, 15, 2, EAST); addEdge(15, 21, 2, WEST);
-    addEdge(15, 18, 2, EAST); addEdge(18, 15, 2, WEST);///////////
+    addEdge(15, 18, 2, EAST); addEdge(18, 15, 2, WEST);
     addEdge(14, 15, 1, SOUTH); addEdge(15, 14, 1, NORTH);
     addEdge(14, 16, 2, EAST); addEdge(16, 14, 2, WEST);
     addEdge(16, 17, 3, SOUTH); addEdge(17, 16, 3, WEST);
@@ -357,11 +347,8 @@ int main() {
     // addEdge(25, 27, 2, EAST); addEdge(27, 25, 2, NORTH);
     // addEdge(27, 23, 1, NORTH); addEdge(23, 27, 1, SOUTH);
     // addEdge(20, 23, 2, EAST); addEdge(23, 20, 2, NORTH);
-
-
     // int distance;
     // int path[MAX];
-
     // if (dijkstra(21, 9, 1, &distance, path)) {
     //     printf("Shortest path from 21 to 9 found:\n");
     //     for (int i = 0; path[i] != -1; i++) {
@@ -378,11 +365,16 @@ int main() {
     int pathLength;
     int* path = nearestNeighbor(startNode, &pathLength);
 
+    FILE *fptr;
+    fptr = fopen("filename.txt", "w");
+
     printf("Nearest Neighbor Path: ");
     for (int i = 0; i < pathLength + 1; i++) {
-        printf("%d ", path[i]);
+        fprintf(fptr, "%d, ", path[i]);
     }
     printf("\n");
+
+    fclose(fptr);
 
     return 0;
 }

@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
-#include <unistd.h>  // For usleep
-
+#include <unistd.h> 
 #include "./constants.h"
-
-#define NUM_CIRCLES 50
 
 int game_is_running = false;
 int last_frame_time = 0;
@@ -34,7 +31,7 @@ int initialize_window(void) {
         return false;
     }
     window = SDL_CreateWindow(
-        "A simple game loop using C & SDL",
+        "Program",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH,
@@ -100,6 +97,7 @@ void FillCircle(SDL_Renderer *renderer, Circle *circle) {
 void setup(CircleMap *circle_map) {
     // Adding circles with unique IDs
     //first line
+    add_circle(circle_map, 0, 50, 400, 15, 255, 0, 0, 255);
     add_circle(circle_map, 3, 110, 50, 15, 255, 0, 0, 255);
     add_circle(circle_map, 6, 250, 50, 15, 255, 0, 0, 255);
     add_circle(circle_map, 10, 450, 50, 15, 255, 0, 0, 255);
@@ -165,10 +163,10 @@ void render(CircleMap *circle_map) {
 
     SDL_Rect shapes[NUM_SHAPES] = {
         //Frame
-        {20, 20, 5, 860},
+        {20, 20, 5, 460},
         {20, 20, 1460, 5}, 
-        {20, 980, 1460, -5}, 
-        {1480, 20, -5, 860},
+        {20, 480, 1460, -5}, 
+        {1480, 20, -5, 460},
         //First block
         {60, 60, 100, 300},
         {200, 60, 100, 300},
@@ -214,13 +212,13 @@ void update_circle_colors(CircleMap *circle_map, int path[], int path_length) {
         Circle* current_circle = get_circle(circle_map, current_id);
         if (!current_circle) {
             fprintf(stderr, "Error: Circle with ID %d not found.\n", current_id);
-            continue; // Skip this iteration if the circle is not found
+            continue;
         }
 
         Circle* prev_circle = (prev_id == -1) ? NULL : get_circle(circle_map, prev_id);
         if (prev_id != -1 && !prev_circle) {
             fprintf(stderr, "Error: Previous Circle with ID %d not found.\n", prev_id);
-            continue; // Skip this iteration if the previous circle is not found
+            continue;
         }
 
         if (prev_circle) {
@@ -236,7 +234,7 @@ void update_circle_colors(CircleMap *circle_map, int path[], int path_length) {
         current_circle->a = 255;
 
         render(circle_map);
-        usleep(500000); // Sleep for 500 milliseconds
+        usleep(500000);
     }
 
     Circle* last_circle = get_circle(circle_map, path[path_length - 1]);
@@ -251,7 +249,6 @@ void update_circle_colors(CircleMap *circle_map, int path[], int path_length) {
     last_circle->a = 255;
     render(circle_map);
 
-    // Stop the game loop after finishing the iteration
     game_is_running = false;
 }
 
@@ -260,20 +257,44 @@ void update_circle_colors(CircleMap *circle_map, int path[], int path_length) {
 int main(int argc, char* args[]) {
     CircleMap circle_map = { .size = 0 };
 
-    // Define the path array
-    int path[] = {0, 1, 2, 3, 6, 10, 12, 14, 15, 18, 17, 16, 13, 11, 8, 4, 5, 7, 20, 21, 13, 11, 9, 19, 0 };
-    int path_length = sizeof(path) / sizeof(path[0]);
+    FILE *file;
+    int numbers[100];
+    int count = 0;
+    char buffer[256];
+
+    file = fopen("filename.txt", "r");
+    if (file == NULL) {
+        perror("Error opening file");
+        return EXIT_FAILURE;
+    }
+
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        char *ptr = buffer;
+        while (*ptr != '\0') {
+            if (*ptr == ' ' || *ptr == ',') {
+                ptr++;
+                continue;
+            }
+            numbers[count] = strtol(ptr, &ptr, 10);
+            count++;
+            if (count >= 100) {
+                fprintf(stderr, "Error: Too many numbers in the file\n");
+                fclose(file);
+                return EXIT_FAILURE;
+            }
+        }
+    }
+
+    fclose(file);
+    int path_length = sizeof(numbers) / sizeof(numbers[0]);
 
     game_is_running = initialize_window();
     setup(&circle_map);
 
-    // Call update_circle_colors to start the path traversal
-    update_circle_colors(&circle_map, path, path_length);
+    update_circle_colors(&circle_map, numbers, path_length);
 
-    // Main game loop
     while (game_is_running) {
         process_input();
-        // Note: The update function is not needed here since we handle updates in update_circle_colors
         render(&circle_map);
     }
 
@@ -281,4 +302,3 @@ int main(int argc, char* args[]) {
 
     return 0;
 }
-
