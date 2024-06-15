@@ -4,7 +4,8 @@ build:
 
 run:
 	./algorithm
-	./game
+	./main
 
 clean:
-	rm game
+	rm main
+	rm algorithm
