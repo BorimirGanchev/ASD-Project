@@ -1,9 +1,7 @@
 # ASD-Project
-Sure, here's a sample README file for your C-based project using the SDL library:
-
 ---
 
-# My SDL Project
+# My C-Based Project
 
 This project is a C-based application that uses the SDL (Simple DirectMedia Layer) library for handling multimedia, input, and graphics.
 
