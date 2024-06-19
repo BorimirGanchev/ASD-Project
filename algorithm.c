@@ -59,6 +59,7 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
 
     dist[startNode] = 0;
 
+    //iterate trough all nodes so it can find the one with the minimum distance
     for (i = 0; i < n; i++) {
         min = inf;
         for (j = 0; j < n; j++) {
@@ -72,6 +73,7 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
 
         selected[m] = 1;
 
+        //for each neigbour to the selected
         for (j = 0; j < n; j++) {
             if (!selected[j] && graph[m][j] != inf) {
                 if (direction[m][j] == oppositeDirection(lastDir)) {
@@ -96,6 +98,7 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
     }
 
     *distance = dist[end];
+    //this is for no path and some switch fo debuging
     if (dist[end] == inf) {
         if (firstDirectionSet) {
             const char* dirStr;
@@ -112,6 +115,7 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
 
     i = end;
     j = 0;
+    //reverse the path
     while (i != -1) {
         path[j++] = i;
         i = prev[i];
@@ -125,6 +129,7 @@ int dijkstra(int start, int end, int lastDir, int *distance, int *path) {
     }
     path[j] = -1;
 
+    //this is for me
     if (firstDirectionSet) {
         const char* dirStr;
         switch (firstDirection) {
@@ -164,6 +169,7 @@ int* nearestNeighbor(int start, int* pathLength) {
 
         int next = findNearestNeighbor(current, lastDir);
 
+        //this is for the blockage
         if (next == -1) {
             int minDist = INT_MAX;
             int nearestNode = -1;
@@ -178,6 +184,7 @@ int* nearestNeighbor(int start, int* pathLength) {
                 }
             }
 
+            //this is if all nodes are found
             if (nearestNode == -1) {
                 break;
             }
@@ -201,6 +208,7 @@ int* nearestNeighbor(int start, int* pathLength) {
             path[pathIndex++] = current;
         }
 
+        //check if everyting is visited
         int allVisited = 1;
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
@@ -211,6 +219,7 @@ int* nearestNeighbor(int start, int* pathLength) {
         if (allVisited) break;
     }
 
+    //block for the path to pack
     int distance, shortestPath[MAX];
     if (dijkstra(current, start, lastDir, &distance, shortestPath)) {
         for (int i = 1; shortestPath[i] != -1; i++) {
